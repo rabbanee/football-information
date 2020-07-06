@@ -1,1 +1,1 @@
-Repo ini untuk history Submission 2 di Kelas PWA dicoding
+Project ini Merupakan Submission 2 di Kelas PWA dicoding
