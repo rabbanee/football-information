@@ -1,53 +1,60 @@
 const DataSource = require('../data/data-source.js').default;
-const Standings = require('../data/standings.js').default;
 const $ = require('jquery');
 const { compile } = require('handlebars');
-
 const template = require('../../html/home.handlebars');
 
 const home = _ => {
-    console.log('from home');
-    Standings.forEach(standing => {
+    $('#app').html(compile(template)());
+
+    const league = document.querySelectorAll('ul#select-league li a');
+    const standingListElement = document.querySelector('standing-list');
+
+    [...league].forEach(e => {
+        e.addEventListener('click', function () {
+            // Function handler selected League
+            $('.preloader-background').fadeIn('fast');
+            $('.preloader-wrapper').fadeIn('fast');
+
+            selectedLeague(this.getAttribute('data-id'));
+        })
+    });
+
+    function selectedLeague(standingId) {
         if ('caches' in window) {
             let base_url = 'https://api.football-data.org/v2/';
-            caches.match(`${base_url}competitions/${standing.id}/standings`)
+            caches.match(`${base_url}competitions/${standingId}/standings`)
                 .then(response => {
                     if (response) {
                         response.json().then(renderResult)
                     } else {
-                        DataSource.getStandingsById(standing.id)
+                        DataSource.getStandingsById(standingId)
                             .then(renderResult)
                             .catch(msg => console.log(msg))
                     }
                 })
         } else {
-            DataSource.getStandingsById(standing.id)
+            DataSource.getStandingsById(standingId)
                 .then(renderResult)
                 .catch(msg => console.log(msg))
         }
+    }
 
+    function renderResult(results) {
+        $('.preloader-background').fadeOut('fast');
+
+        $('.preloader-wrapper').fadeOut('fast');
+        standingListElement.standings = results;
+    }
+
+    document.addEventListener('click', function (e) {
+        let target = e.target;
+        if (target.classList.contains('team')) {
+            e.preventDefault();
+        }
     });
 
-    function renderResult(result) {
-        const standingItemElement = document.createElement('standing-item');
-        standingItemElement.standing = result;
-        document.querySelector('main .container').appendChild(standingItemElement);
-        let tabs = document.querySelector('.tabs');
-        M.Tabs.init(tabs, {
-            swipeable: true,
-            onShow: resizeTab
-        });
-        $(window).resize(function () { resizeTab(); });
-        function resizeTab() {
-            $(".tabs-content").css('height', $('.carousel-item.active').height() + 'px');
-        }
-    }
-    let user = 'Jonh'
+    let dropDownTrigger = document.querySelectorAll('.dropdown-trigger');
+    M.Dropdown.init(dropDownTrigger);
 
-    $('#app').html(compile(template)({
-        user,
-    }))
-    // const standingListElement = document.createElement('standing-list');
-    // document.querySelector('main .container').appendChild(standingListElement);
 }
 export default home;

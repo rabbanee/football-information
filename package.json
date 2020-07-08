@@ -5,7 +5,7 @@
   "main": "app.js",
   "dependencies": {
     "handlebars": "^4.7.6",
-    "navigo": "^5.3.1",
+    "navigo": "^5.3.3",
     "path": "^0.12.7"
   },
   "devDependencies": {

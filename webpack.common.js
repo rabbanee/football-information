@@ -16,6 +16,7 @@ module.exports = {
             handlebars: 'handlebars/dist/handlebars.min.js',
         }
     },
+
     // Module
     module: {
         rules: [
@@ -50,7 +51,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin(
             {
-                title: 'Footbal Information &mdash; FI',
+                title: 'Football Information &mdash; FI',
                 template: "./src/html/app.ejs",
             }
         )

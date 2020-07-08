@@ -1,11 +1,12 @@
-const CACHE_NAME = 'fi-v1';
+const CACHE_NAME = 'fi-v2';
 let urlsToCache = [
     '/',
     '/sw.js',
+    '/bundle.js',
     '/dist/bundle.js',
     '/dist/index.html',
     '/src/app.js',
-    '/src/html/index.html',
+    '/src/html/app.ejs',
     '/src/scripts/components/nav-bar.js',
     '/src/scripts/components/standing-item.js',
     '/src/scripts/components/standing-list.js',
@@ -56,7 +57,7 @@ self.addEventListener('activate', function (event) {
         caches.keys().then(function (cacheNames) {
             return Promise.all(
                 cacheNames.map(function (cacheName) {
-                    if (cacheName !== CACHE_NAME && cacheName.startsWith('fi')) {
+                    if (cacheName !== CACHE_NAME && cacheName.startsWith('fi-')) {
                         return caches.delete(cacheName);
                     }
                 })

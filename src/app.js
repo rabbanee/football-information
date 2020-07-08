@@ -4,25 +4,28 @@ require('./scripts/components/nav-bar.js');
 require('material-design-icons/iconfont/material-icons.css');
 require('./scripts/components/standing-list.js');
 require('./scripts/components/standing-item.js');
+require('./scripts/components/pre-loader.js');
 require('./css/style.css');
 
 import Navigo from 'navigo';
 const $ = require('jquery');
 import HomePage from './scripts/view/home.js';
-import TeamPage from './scripts/view/team.js';
+import MatchesPage from './scripts/view/matches.js';
 document.addEventListener('DOMContentLoaded', _ => {
-    var router = new Navigo();
+    const base_url = 'http://localhost:8080/';
+    $('.preloader-background').fadeOut();
+    $('.preloader-wrapper').fadeOut();
+
+    var router = new Navigo(base_url);
     router
-        .on('/ss', _ => console.log('ada nih'))
-        .on('/team', () => console.log('ada nih'))
-        .notFound(_ => console.log('error cuy'))
+        .on('/', HomePage)
+        .on('/matches', MatchesPage)
+        .notFound(HomePage)
         .resolve();
-    console.log(router);
 
     $(document).on('click', '[data-path]', (e) => {
-        e.preventDefault()
+        e.preventDefault();
         router.navigate($(e.target).attr('href'))
-        console.log(router);
     });
 
     // REGISTER SERVICE WORKER

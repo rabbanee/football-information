@@ -7,11 +7,8 @@ class StandingItem extends HTMLElement {
         this.render();
     }
 
-    // set id(id){
-    // }
 
     render() {
-
         function standingTable(standing) {
             let html = '';
             if (standing.competition.id === 2001) {
@@ -30,11 +27,11 @@ class StandingItem extends HTMLElement {
                     <table class="standing-table responsive-table mb-3">
                         <thead>
                             <tr>
-                                <th>No</th>
+                                <th class="center">No</th>
                                 <th>Team</th>
-                                <th>MP</th>
-                                <th>W</th>
-                                <th>PT</th>
+                                <th class="center">MP</th>
+                                <th class="center">W</th>
+                                <th class="center">PT</th>
                             </tr>
                         </thead>
                                         
@@ -53,13 +50,13 @@ class StandingItem extends HTMLElement {
                     html += `
                         <table class="standing-table responsive-table">
                             <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Team</th>
-                                <th>D</th>
-                                <th>W</th>
-                                <th>PT</th>
-                            </tr>
+                                <tr>
+                                    <th class="center">No</th>
+                                    <th>Team</th>
+                                    <th class="center">D</th>
+                                    <th class="center">W</th>
+                                    <th class="center">PT</th>
+                                </tr>
                             </thead>
     
                             <tbody>
@@ -78,14 +75,16 @@ class StandingItem extends HTMLElement {
             rows.forEach((row) => {
                 html += ` 
                     <tr>
-                        <td>${row.position}</td>
+                        <td class="center">${row.position}</td>
                         <td>
-                            <img src="${row.team.crestUrl}" alt="Img team" class="img-crest">
-                            ${row.team.name}
+                            <a href="" class="team" data-id="${row.team.id}">
+                                <img src="${row.team.crestUrl}" alt="Img team" class="img-crest">
+                                ${row.team.name}
+                            </a>
                         </td>
-                        <td>${row.draw}</td>
-                        <td>${row.won}</td>
-                        <td>${row.points}</td>
+                        <td class="center">${row.draw}</td>
+                        <td class="center">${row.won}</td>
+                        <td class="center">${row.points}</td>
                     </tr>
                 `;
             });
@@ -110,18 +109,19 @@ class StandingItem extends HTMLElement {
                 .img-crest{
                     width: 40px;
                     height: 40px;
+                    margin-right: 8px;
                 }
-                
+                a.team {
+                    display: flex;
+                    align-items: center;
+                }
                 .tabs-content.carousel .carousel-item{
                     height: auto !important;
                 }
             </style>
-            <div  class="col s12 standing-content grey lighten-4">
-                <div class="standing-wrapper">
-                    <h4>${this._standing.competition.area.name}</h4>    
-                    ${standingTable(this._standing)}
-                </div>
-            </div>
+            
+            <h4>${this._standing.competition.area.name}</h4>    
+            ${standingTable(this._standing)}
         `;
 
     }
