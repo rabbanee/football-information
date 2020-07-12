@@ -1,6 +1,7 @@
 const path = require('path');
 const { resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -16,7 +17,10 @@ module.exports = {
             handlebars: 'handlebars/dist/handlebars.min.js',
         }
     },
-
+    node: {
+        tls: 'empty',
+        net: 'empty'
+    },
     // Module
     module: {
         rules: [
@@ -54,6 +58,7 @@ module.exports = {
                 title: 'Football Information &mdash; FI',
                 template: "./src/html/app.ejs",
             }
-        )
+        ),
+        new MomentLocalesPlugin(),
     ]
 }

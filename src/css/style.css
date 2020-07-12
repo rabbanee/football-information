@@ -1,3 +1,156 @@
 body{
-    height: 1000px !important;
+    margin-bottom: 100px;
+}
+.crestUrl{
+    width: 40px;
+    height: 40px;
+}
+
+.matches-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    flex-direction: row;
+}
+
+.matches-wrapper .match {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-basis: 38%;
+    padding: 10px 2px;
+    margin: 6px 6px;
+    flex-grow: 1;
+    background-color: #eaeaea;
+}
+
+.matches-wrapper .match .awayTeam, .matches-wrapper .match .homeTeam {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+     width: 208px;
+}
+
+.matches-wrapper .match .awayTeam p, .matches-wrapper .match .homeTeam  p{
+    margin: 0;
+    text-align: center;
+}
+
+.matches-wrapper .match p.vs{
+    margin: 0 10px;
+}
+
+.matches-wrapper .match div.info{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.wrapper-btn-vs {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+button.btn-reminder {
+    border: 1px solid #EE6E73;
+    width: 90px;
+    font-size: 14px;
+    height: 40px;
+    background: #EE6E73;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: .3s;
+}
+
+button.btn-reminder.reminders{
+    width: 98px;
+}
+
+button.btn-reminder:hover{
+    border: 1px solid #ee6e72b7;
+    background: #ee6e72b7;
+    
+}
+/* Mobile Device */
+@media only screen and (max-width: 600px){
+    .matches-wrapper .match .awayTeam, .matches-wrapper .match .homeTeam {
+        width: 90px;
+    }
+
+    button.btn-reminder.reminders, button.btn-reminder.matches {
+        font-size: 12px;
+        width: 88px;
+    }
+
+    .brand-logo {
+        font-size: 18px !important;
+    }
+
+    .matches-wrapper{
+        flex-direction: column;
+    }
+
+    .matches-wrapper .match .awayTeam p, .matches-wrapper .match .homeTeam p {
+        font-size: 14px;
+    }
+}
+
+/* Tablet Device */
+@media only screen and (min-width: 600px){
+    .matches-wrapper .match .awayTeam, .matches-wrapper .match .homeTeam {
+        width: 200px;
+    }
+    
+    .brand-logo {
+        font-size: 24px !important;
+    }
+    
+    .matches-wrapper{
+        flex-direction: column;
+    }
+}
+
+/* Desktop Device */
+@media only screen and (min-width: 992px){
+    .matches-wrapper .match .awayTeam, .matches-wrapper .match .homeTeam {
+        width: 240px;
+    }
+    
+    .matches-wrapper{
+        flex-direction: column;
+    }
+
+    .brand-logo {
+        font-size: 24px !important;
+    }
+
+    button.btn-reminder.reminders, button.btn-reminder.matches {
+        width: auto;
+    }   
+}
+
+/* Large Device */
+@media only screen and (min-width: 1200px){
+    .matches-wrapper .match .awayTeam, .matches-wrapper .match .homeTeam {
+        width: 152px;
+    }
+
+    button.btn-reminder.reminders{
+        width: 98px;
+    }
+
+    .brand-logo {
+        font-size: 24px !important;
+    }
+
+    button.btn-reminder.matches {
+        width: 90px;
+    }   
+
+    .matches-wrapper{
+        flex-direction: row;
+    }
 }

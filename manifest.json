@@ -1,0 +1,17 @@
+{
+    "name": "Football Information - FI",
+    "short_name": "Football Information",
+    "description": "App about Football Information",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#FFFFFF",
+    "theme_color": "#EE6E73",
+    "icons": [
+        {
+            "src": "/src/img/ball_bg.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "gcm_sender_id": "496418037762"
+}

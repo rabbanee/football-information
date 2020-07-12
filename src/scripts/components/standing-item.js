@@ -7,6 +7,7 @@ class StandingItem extends HTMLElement {
         this.render();
     }
 
+    
 
     render() {
         function standingTable(standing) {
@@ -76,11 +77,9 @@ class StandingItem extends HTMLElement {
                 html += ` 
                     <tr>
                         <td class="center">${row.position}</td>
-                        <td>
-                            <a href="" class="team" data-id="${row.team.id}">
-                                <img src="${row.team.crestUrl}" alt="Img team" class="img-crest">
-                                ${row.team.name}
-                            </a>
+                        <td class="team">
+                            <img src="${row.team.crestUrl}" onerror="if (this.src !== '/src/img/default.png') this.src = '/src/img/default.png'" alt="Img team" class="img-crest">
+                            ${row.team.name}
                         </td>
                         <td class="center">${row.draw}</td>
                         <td class="center">${row.won}</td>
@@ -111,7 +110,7 @@ class StandingItem extends HTMLElement {
                     height: 40px;
                     margin-right: 8px;
                 }
-                a.team {
+                td.team {
                     display: flex;
                     align-items: center;
                 }
@@ -125,6 +124,8 @@ class StandingItem extends HTMLElement {
         `;
 
     }
+
+   
 
 }
 customElements.define('standing-item', StandingItem);

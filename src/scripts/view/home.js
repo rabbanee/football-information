@@ -5,12 +5,17 @@ const template = require('../../html/home.handlebars');
 
 const home = _ => {
     $('#app').html(compile(template)());
+    $('.preloader-background').fadeOut();
+    $('.preloader-wrapper').fadeOut();
 
     const league = document.querySelectorAll('ul#select-league li a');
     const standingListElement = document.querySelector('standing-list');
+    const entryElement = document.querySelector('#entry');
+
 
     [...league].forEach(e => {
-        e.addEventListener('click', function () {
+        e.addEventListener('click', function (event) {
+            event.preventDefault();
             // Function handler selected League
             $('.preloader-background').fadeIn('fast');
             $('.preloader-wrapper').fadeIn('fast');
@@ -29,7 +34,7 @@ const home = _ => {
                     } else {
                         DataSource.getStandingsById(standingId)
                             .then(renderResult)
-                            .catch(msg => console.log(msg))
+                            .catch(renderError)
                     }
                 })
         } else {
@@ -39,11 +44,16 @@ const home = _ => {
         }
     }
 
-    function renderResult(results) {
+    function renderError(error) {
+        standingListElement.error = error;
         $('.preloader-background').fadeOut('fast');
-
         $('.preloader-wrapper').fadeOut('fast');
+    }
+
+    function renderResult(results) {
         standingListElement.standings = results;
+        $('.preloader-background').fadeOut('fast');
+        $('.preloader-wrapper').fadeOut('fast');
     }
 
     document.addEventListener('click', function (e) {
