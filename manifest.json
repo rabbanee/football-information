@@ -13,5 +13,7 @@
             "type": "image/png"
         }
     ],
-    "gcm_sender_id": "496418037762"
+    "gcm_sender_id": "496418037762",
+    "publicKey": "BOml4-PG4mZ2RTyTBRQ1hPNy8SMhVJwMhu2rX94V_Yvv-wSHp7Rmacxo76Y51cQ1GJgLBJJlxlZTOBcfwTPtrgc",
+    "privateKey": "VQqnVIADCk3Q_E7XJ_Uids4jVeTzLz0efK5YdfqyElk"
 }
