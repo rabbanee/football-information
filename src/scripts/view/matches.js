@@ -41,7 +41,6 @@ function matches() {
 
     // Meminta ijin menggunakan Notification API
     function requestPermission(tag, results) {
-        console.log(results);
         Notification.requestPermission().then(function (result) {
             if (result === "denied") {
                 swal("Failed to Remind", "Please allow the notification!", "error");
@@ -53,19 +52,19 @@ function matches() {
 
             if ("showTrigger" in Notification.prototype) {
                 results.matches.forEach(result => {
-                    createScheduledNotification(tag, `${result.awayTeam.name} vs ${result.homeTeam.name}`, `The match will be starting`, new Date(result.utcDate));
+                    createScheduledNotification(tag, `${result.awayTeam.name} vs ${result.homeTeam.name}`, new Date(result.utcDate));
 
                 })
             }
         });
     }
 
-    const createScheduledNotification = async (tag, title, body, timestamp) => {
+    const createScheduledNotification = async (tag, title, timestamp) => {
         const registration = await navigator.serviceWorker.getRegistration();
         registration.showNotification(title, {
             tag: tag,
             renotify: true,
-            body: `This timestamp is ${timestamp} ini bukan ${Date.now()}`,
+            body: 'The match will be starting',
             icon: '/src/img/ball_bg.png',
             badge: '/src/img/ball.png',
             showTrigger: new TimestampTrigger(timestamp)
