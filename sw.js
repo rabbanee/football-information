@@ -1,20 +1,23 @@
-const CACHE_NAME = 'fi-v2';
+const CACHE_NAME = 'fi-v3';
+const { assets } = global.serviceWorkerOption
+
 let urlsToCache = [
-    '/',
+    ...assets,
+    './',
     '/sw.js',
     '/manifest.json',
-    '/bundle.js',
     '/dist/bundle.js',
     '/dist/index.html',
     '/src/app.js',
-    '/src/html/app.ejs',
-    '/src/html/home.handlebars',
-    '/src/html/matches.handlebars',
-    '/src/html/reminders.handlebars',
+    '/matches',
+    '/reminders',
     '/src/scripts/components/nav-bar.js',
     '/src/scripts/components/standing-item.js',
     '/src/scripts/components/standing-list.js',
+    '/src/scripts/components/pre-loader.js',
+    '/src/scripts/components/table-matches.js',
     '/src/scripts/data/data-source.js',
+    '/src/scripts/data/db.js',
     '/src/scripts/data/standings.js',
     '/src/scripts/view/home.js',
     '/src/scripts/view/matches.js',
@@ -24,11 +27,13 @@ let urlsToCache = [
     '/src/img/ball_bg.png',
     '/src/img/default.png',
 ];
-
+urlsToCache = urlsToCache.map(path => {
+    return new URL(path, global.location).toString()
+})
 
 self.addEventListener('install', function (event) {
     event.waitUntil(
-        caches.open(CACHE_NAME).then(function (cache) {
+        global.caches.open(CACHE_NAME).then(function (cache) {
             return cache.addAll(urlsToCache);
         })
     )
@@ -48,7 +53,6 @@ self.addEventListener('fetch', event => {
                                 cache.put(event.request, networkResponse.clone());
                                 return networkResponse;
                             });
-                            // console.log(fetch(event.request));
                             return response || fetchPromise;
                         })
                 })
@@ -89,7 +93,8 @@ self.addEventListener('push', function (event) {
     }
     var options = {
         body: body,
-        icon: 'img/notification.png',
+        icon: '/src/img/ball_bg.png',
+        badge: '/src/img/ball.png',
         vibrate: [100, 50, 100],
         data: {
             dateOfArrival: Date.now(),
@@ -97,31 +102,6 @@ self.addEventListener('push', function (event) {
         }
     };
     event.waitUntil(
-        self.registration.showNotification('Push Notification', options)
+        self.registration.showNotification('Football Information', options)
     );
 });
-
-// self.addEventListener('push', event => {
-//     console.log('i am pushed');
-//     let body;
-//     if (event.data) {
-//         body = event.data.text();
-//     } else {
-//         body = 'Push message no payload';
-//     }
-//     console.log(new TimestampTrigger(new Date().getTime() + 5 * 1000));
-//     let options = {
-//         body: body,
-//         icon: '/src/img/default.png',
-//         vibrate: [100, 50, 100],
-//         showTrigger: new TimestampTrigger(new Date().getTime() + 5 * 1000),
-//         data: {
-//             dateOfArrival: Date.now(),
-//             primaryKey: 1
-//         }
-//     };
-
-//     event.waitUntil(
-//         self.registration.showNotification(`Push Notification ${time}`, options)
-//     );
-// });

@@ -53,9 +53,9 @@ function matches() {
             if ("showTrigger" in Notification.prototype) {
                 results.matches.forEach(result => {
                     createScheduledNotification(tag, `${result.awayTeam.name} vs ${result.homeTeam.name}`, new Date(result.utcDate));
-
+                    // createScheduledNotification(tag, `${result.awayTeam.name} vs ${result.homeTeam.name}`, Date.now());
                 })
-            }
+            } 
         });
     }
 

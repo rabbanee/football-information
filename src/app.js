@@ -14,10 +14,11 @@ const $ = require('jquery');
 const MatchesPage = require('./scripts/view/matches.js').default;
 const HomePage = require('./scripts/view/home.js').default;
 const RemindersPage = require('./scripts/view/reminders.js').default;
-const base_url = 'http://localhost:8080/';
-const router = new Navigo(base_url);
+// const base_url = 'http://localhost:8080/';
+const router = new Navigo();
 
 document.addEventListener('DOMContentLoaded', _ => {
+    console.log('kesini');
     router
         .on('/', HomePage)
         .on('/matches', MatchesPage)

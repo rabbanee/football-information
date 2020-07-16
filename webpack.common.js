@@ -1,6 +1,7 @@
 const path = require('path');
 const { resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 module.exports = {
@@ -41,7 +42,7 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(woff2?|eot|ttf|otf)$/,
+                test: /\.(woff2?|eot|ttf|otf|png|jpe?|svg)$/,
                 loader: 'file-loader',
                 options: {
                     limit: 10000,
@@ -60,5 +61,8 @@ module.exports = {
             }
         ),
         new MomentLocalesPlugin(),
+        new ServiceWorkerWebpackPlugin({
+            entry: path.join(__dirname, 'sw.js'),
+        }),
     ]
 }
