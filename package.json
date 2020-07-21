@@ -1,5 +1,5 @@
 {
-  "name": "submission-2",
+  "name": "submission-3",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -32,7 +32,8 @@
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "webpack-pwa-manifest": "^4.2.0"
   },
   "scripts": {
     "build": "webpack --config webpack.prod.js",
