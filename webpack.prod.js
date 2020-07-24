@@ -15,7 +15,6 @@ module.exports = merge(common, {
                         options: {
                             presets: [
                                 '@babel/preset-env',
-
                             ],
                         }
                     }

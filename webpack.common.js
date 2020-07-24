@@ -10,7 +10,7 @@ module.exports = {
         app: './src/app.js',
     },
     output: {
-        path: path.resolve(__dirname, "public"),
+        path: path.resolve(__dirname, "docs"),
         publicPath: '/',
         filename: "bundle.js"
     },
@@ -102,10 +102,10 @@ module.exports = {
                     from: path.resolve(__dirname, 'src/img'),
                     to: path.resolve(__dirname, 'public/src/img'),
                 },
-                {
-                    from: path.resolve(__dirname, 'public/manifest.json'),
-                    to: path.resolve(__dirname, 'manifest.json'),
-                },
+                // {
+                //     from: path.resolve(__dirname, 'docs/manifest.json'),
+                //     to: path.resolve(__dirname, 'manifest.json'),
+                // },
             ]
         }),
     ]
