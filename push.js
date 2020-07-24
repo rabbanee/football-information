@@ -12,10 +12,10 @@ webPush.setVapidDetails(
 );
 
 let pushSubscription = {
-    'endpoint': 'https://fcm.googleapis.com/fcm/send/f2V664xVxhY:APA91bF0icK9-7AIdmdfUgaSa2_bk3aTQ_UX8I-iNc3wjYu4Fe2LAhzmrGTsTLNjHNxdJCMoFXui8lie9vop20sQqot15mdrMv09E8KonY4JAFk9a3SiVnoqnec4yPyhkaHL3pKs_3wN',
+    'endpoint': 'https://fcm.googleapis.com/fcm/send/c6-y3L67zqc:APA91bH__9TzLEwxAjTnek5UfLhZsb7FgDvXaSMhP5Bii0R7jdF_vOKQc5ZH9RABhLvW55muL6oJXlx6L1Ugv_jI2ZHVuzFShGTQ19RjmlhCygNq8JHdgyTzNfSX35VyKz2K-lJVF6_8',
     'keys': {
-        'p256dh': 'BDSYMM937gyiJphDnkHfQMJQxPbTclXVaMylyj8AhkzMF/1aMztqZZd8NJnBNiOLhvt+EB6dwHfF6D56V6cmZoY=',
-        'auth': 'k8MqTLSN0Uzgx+mVUQ1GtQ=='
+        'p256dh': 'BIH0b8KxgvrnH6eZAhKJLaOPYzHBiUUd7kmVuHDrpVM7fIXq95lbmWdbKwMC5Ora40GIr2szxHiNJwKmhxXRL6s=',
+        'auth': 'NUf32b5BfOWDgancRmcmRg=='
     }
 }
 

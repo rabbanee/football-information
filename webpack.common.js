@@ -11,7 +11,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, "docs"),
-        publicPath: '/',
+        publicPath: '/mpwa-submission-3',
         filename: "bundle.js"
     },
     resolve: {
