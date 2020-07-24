@@ -17,7 +17,6 @@ const RemindersPage = require('./scripts/view/reminders.js').default;
 const router = new Navigo();
 
 document.addEventListener('DOMContentLoaded', _ => {
-    console.log('kesini');
     router
         .on('/', HomePage)
         .on('/matches', MatchesPage)
