@@ -1,89 +1,42 @@
-const CACHE_NAME = 'fi-v3';
-const { assets } = global.serviceWorkerOption
-
-let urlsToCache = [
-    ...assets,
-    './',
-    '/sw.js',
-    '/manifest.json',
-    '/dist/bundle.js',
-    '/dist/index.html',
-    '/src/app.js',
-    '/matches',
-    '/reminders',
-    '/src/scripts/components/nav-bar.js',
-    '/src/scripts/components/standing-item.js',
-    '/src/scripts/components/standing-list.js',
-    '/src/scripts/components/pre-loader.js',
-    '/src/scripts/components/table-matches.js',
-    '/src/scripts/data/data-source.js',
-    '/src/scripts/data/db.js',
-    '/src/scripts/data/standings.js',
-    '/src/scripts/view/home.js',
-    '/src/scripts/view/matches.js',
-    '/src/scripts/view/reminders.js',
-    '/src/css/style.css',
-    '/src/img/ball.png',
-    '/src/img/ball_bg.png',
-    '/src/img/default.png',
-];
-urlsToCache = urlsToCache.map(path => {
-    return new URL(path, global.location).toString()
-})
-
-self.addEventListener('install', function (event) {
-    event.waitUntil(
-        global.caches.open(CACHE_NAME).then(function (cache) {
-            return cache.addAll(urlsToCache);
-        })
-    )
-});
-
-
-self.addEventListener('fetch', event => {
-    let base_url = 'https://api.football-data.org/v2/';
-    if (event.request.url.indexOf(base_url) > -1) {
-        event.respondWith(
-            caches.open(CACHE_NAME)
-                .then(cache => {
-                    return cache.match(event.request)
-                        .then(response => {
-                            let fetchPromise = fetch(event.request).then(networkResponse => {
-
-                                cache.put(event.request, networkResponse.clone());
-                                return networkResponse;
-                            });
-                            return response || fetchPromise;
-                        })
-                })
-        )
-    } else {
-        event.respondWith(
-            caches
-                .match(event.request)
-                .then(function (response) {
-                    return response || fetch(event.request)
-                })
-        )
-    }
-
-});
-
-
-self.addEventListener('activate', function (event) {
-    event.waitUntil(
-        caches.keys().then(function (cacheNames) {
-            return Promise.all(
-                cacheNames.map(function (cacheName) {
-                    if (cacheName !== CACHE_NAME && cacheName.startsWith('fi-')) {
-                        return caches.delete(cacheName);
-                    }
-                })
-            )
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js');
+if (workbox) {
+    workbox.precaching.precacheAndRoute([
+        { url: 'index.html', revision: '1' },
+        { url: '/matches', revision: '1' },
+        { url: '/reminders', revision: '1' },
+        { url: '/src/scripts/components/nav-bar.js', revision: '1' },
+        { url: '/src/scripts/components/standing-item.js', revision: '1' },
+        { url: '/src/scripts/components/standing-list.js', revision: '1' },
+        { url: '/src/scripts/components/pre-loader.js', revision: '1' },
+        { url: '/src/scripts/components/table-matches.js', revision: '1' },
+        { url: '/src/scripts/data/data-source.js', revision: '1' },
+        { url: '/src/scripts/data/db.js', revision: '1' },
+        { url: '/src/scripts/view/home.js', revision: '1' },
+        { url: '/src/scripts/view/matches.js', revision: '1' },
+        { url: '/src/scripts/view/reminders.js', revision: '1' },
+        { url: '/src/img/ball.png', revision: '1' },
+        { url: '/src/img/ball_bg.png', revision: '1' },
+        { url: '/src/img/default.png', revision: '1' },
+    ], {
+        ignoreURLParametersMatching: [/.*/]
+    })
+    workbox.routing.registerRoute(
+        new RegExp('/'),
+        workbox.strategies.staleWhileRevalidate({
+            cacheName: 'home'
         })
     );
-});
 
+    workbox.routing.registerRoute(
+        new RegExp('https://api.football-data.org/v2/'),
+        workbox.strategies.staleWhileRevalidate({
+            cacheName: 'football-api',
+            ignoreURLParametersMatching: [/.*/]
+        })
+    );
+} else {
+    console.log('Workbox gagal dimuat');
+}
 self.addEventListener('push', function (event) {
     var body;
     if (event.data) {

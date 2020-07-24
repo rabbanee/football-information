@@ -7,8 +7,6 @@ class StandingItem extends HTMLElement {
         this.render();
     }
 
-    
-
     render() {
         function standingTable(standing) {
             let html = '';
@@ -74,11 +72,12 @@ class StandingItem extends HTMLElement {
         function rowTable(rows) {
             let html = '';
             rows.forEach((row) => {
+                let url = row.team.crestUrl;
                 html += ` 
                     <tr>
                         <td class="center">${row.position}</td>
                         <td class="team">
-                            <img src="${row.team.crestUrl}" onerror="if (this.src !== '/src/img/default.png') this.src = '/src/img/default.png'" alt="Img team" class="img-crest">
+                            <img src="${url === null || url === 'null' ? '/src/img/default.png' : url.replace(/^http:\/\//i, 'https://')}" onerror="if (this.src !== '/src/img/default.png') this.src = '/src/img/default.png'" alt="Img team" class="img-crest">
                             ${row.team.name}
                         </td>
                         <td class="center">${row.draw}</td>
@@ -125,7 +124,7 @@ class StandingItem extends HTMLElement {
 
     }
 
-   
+
 
 }
 customElements.define('standing-item', StandingItem);

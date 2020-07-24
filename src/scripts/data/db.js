@@ -14,12 +14,11 @@ class DB {
             this.dbPromised.then(db => {
                 let tx = db.transaction('reminder', 'readwrite');
                 let store = tx.objectStore('reminder');
-                store.add(match);
+                store.put(match);
                 return tx.complete;
             })
                 .then(_ => resolve())
                 .catch(_ => reject())
-            
 
         })
     }

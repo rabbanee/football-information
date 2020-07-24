@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime';
 const DataSource = require('../data/data-source.js').default;
 const $ = require('jquery');
 const { compile } = require('handlebars');
@@ -25,23 +26,9 @@ const home = _ => {
     });
 
     function selectedLeague(standingId) {
-        if ('caches' in window) {
-            let base_url = 'https://api.football-data.org/v2/';
-            caches.match(`${base_url}competitions/${standingId}/standings`)
-                .then(response => {
-                    if (response) {
-                        response.json().then(renderResult)
-                    } else {
-                        DataSource.getStandingsById(standingId)
-                            .then(renderResult)
-                            .catch(renderError)
-                    }
-                })
-        } else {
-            DataSource.getStandingsById(standingId)
-                .then(renderResult)
-                .catch(msg => console.log(msg))
-        }
+        DataSource.getStandingsById(standingId)
+            .then(renderResult)
+            .catch(renderError)
     }
 
     function renderError(error) {

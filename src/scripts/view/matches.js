@@ -7,31 +7,49 @@ const swal = require('sweetalert');
 const moment = require('moment');
 
 function matches() {
+    const db = new DB();
 
     $('#app').html(compile(template)())
     const BASE_URL = 'https://api.football-data.org/v2/';
 
     fetchMatchesByStatus('SCHEDULED')
 
-    document.addEventListener('click', function (e) {
+    document.addEventListener('click', async function (e) {
         let target = e.target;
         if (target.classList.contains('btn-reminder') && target.classList.contains('matches')) {
             // Periksa fitur Notification API
             if ("Notification" in window) {
-                let dataId = target.getAttribute('data-id');
-                DataSource.getMatchByIdAndStatus(dataId)
-                    .then(async result => {
-                        let db = new DB();
-                        let results = await addCrestUrl({
-                            matches: [result]
-                        });
-                        db.remindToWatch(result)
-                            .then(_ => {
-                                swal("Success", "The reminder will remind the match!", "success")
-                                requestPermission(dataId, results);
-                            })
-                            .catch(_ => swal("Failed", "The match has been added to reminder!", "error"))
-                    }).catch(err => console.log(err))
+                let status = '';
+                try {
+                    status = await requestPermission();
+
+                } catch (error) {
+                    status = error;
+                }
+                console.log(status);
+                if (status === 'granted') {
+                    let dataId = target.getAttribute('data-id');
+                    DataSource.getMatchByIdAndStatus(dataId)
+                        .then(async result => {
+                            let results = await addCrestUrl({
+                                matches: [result]
+                            });
+                            if ("showTrigger" in Notification.prototype) {
+                                results.matches.forEach(result => {
+                                    createScheduledNotification(dataId, `${result.awayTeam.name} vs ${result.homeTeam.name}`, new Date(result.utcDate));
+                                });
+                                db.remindToWatch(result)
+                                    .then(_ => {
+                                        target.classList.add('disabled');
+                                        target.innerHTML = 'Reminded';
+                                        swal("Success", "The reminder will remind the match!", "success");
+                                    })
+                                    .catch(_ => swal("Failed", "The match has been added to reminder!", "error"))
+                            }
+                        }).catch(err => console.log(err))
+                } else {
+                    swal("Failed", "Please allow the notification For getting feature reminder!", "error")
+                }
             } else {
                 swal("Failed", "The browser does not support notification feature!", "error")
             }
@@ -40,23 +58,18 @@ function matches() {
 
 
     // Meminta ijin menggunakan Notification API
-    function requestPermission(tag, results) {
-        Notification.requestPermission().then(function (result) {
-            if (result === "denied") {
-                swal("Failed to Remind", "Please allow the notification!", "error");
-                return;
-            } else if (result === "default") {
-                swal("Failed to Remind", "Please allow the notification!", "error");
-                return;
-            }
+    function requestPermission() {
+        return new Promise((resolve, reject) => {
+            Notification.requestPermission().then(function (result) {
+                if (result === "denied") {
+                    reject(result);
+                } else if (result === "default") {
+                    reject(result);
+                }
+                resolve(result);
+            });
 
-            if ("showTrigger" in Notification.prototype) {
-                results.matches.forEach(result => {
-                    createScheduledNotification(tag, `${result.awayTeam.name} vs ${result.homeTeam.name}`, new Date(result.utcDate));
-                    // createScheduledNotification(tag, `${result.awayTeam.name} vs ${result.homeTeam.name}`, Date.now());
-                })
-            } 
-        });
+        })
     }
 
     const createScheduledNotification = async (tag, title, timestamp) => {
@@ -88,7 +101,7 @@ function matches() {
     function renderError(error) {
         const tableMatchesElement = document.createElement('table-matches');
         const containerElement = document.querySelector('#entry');
-
+        console.log(error);
         tableMatchesElement.error = error;
         containerElement.appendChild(tableMatchesElement);
 
@@ -109,8 +122,36 @@ function matches() {
 
         tableMatchesElement.matches = results;
         containerElement.appendChild(tableMatchesElement);
+        const btnReminders = document.querySelectorAll('.btn-reminder.matches');
+        let resultReminders = [];
+
+        await reminders().then(data => {
+            resultReminders = data;
+        });
+        let btnIds = [];
+        [...btnReminders].forEach((e, i) => {
+            btnIds.push(parseInt(e.getAttribute('data-id')))
+        });
+        let reminderIds = [];
+        resultReminders.forEach(e => {
+            reminderIds.push(e.id);
+        });
+        let intersection = btnIds.filter(x => reminderIds.includes(x));
+        // disbaled button
+        intersection.forEach(e => {
+            const el = document.querySelector(`[data-id="${e}"]`);
+            el.classList.add('disabled');
+            el.innerHTML = 'Reminded';
+        });
+
         $('.preloader-background').fadeOut('fast');
         $('.preloader-wrapper').fadeOut('fast');
+    }
+
+    function reminders() {
+        return new Promise((resolve, reject) => {
+            db.getAll().then(data => resolve(data))
+        })
     }
 
     async function addCrestUrl(result) {

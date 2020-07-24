@@ -14,7 +14,6 @@ const $ = require('jquery');
 const MatchesPage = require('./scripts/view/matches.js').default;
 const HomePage = require('./scripts/view/home.js').default;
 const RemindersPage = require('./scripts/view/reminders.js').default;
-// const base_url = 'http://localhost:8080/';
 const router = new Navigo();
 
 document.addEventListener('DOMContentLoaded', _ => {
@@ -61,11 +60,8 @@ document.addEventListener('DOMContentLoaded', _ => {
         function requestPermission() {
             Notification.requestPermission().then(function (result) {
                 if (result === "denied") {
-                    alert('Please allow the notification to get reminder')
-                    console.log("Fitur notifikasi tidak diijinkan.");
                     return;
                 } else if (result === "default") {
-                    console.error("Pengguna menutup kotak dialog permintaan ijin.");
                     return;
                 }
                 if (('PushManager') in window) {
@@ -92,7 +88,6 @@ document.addEventListener('DOMContentLoaded', _ => {
     }
 
     //active sidebar nav
-    // HomePage();
     let sideNav = document.querySelectorAll('.sidenav');
     M.Sidenav.init(sideNav);
 });

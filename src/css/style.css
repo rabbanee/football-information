@@ -1,9 +1,24 @@
 body{
     margin-bottom: 100px;
 }
+
 .crestUrl{
     width: 40px;
     height: 40px;
+}
+
+img.img-empty {
+    width: 55%;
+}
+
+p.text-empty{
+    font-size: 2.2vw;
+}
+
+.matches-wrapper-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .matches-wrapper {
@@ -153,4 +168,9 @@ button.btn-reminder:hover{
     .matches-wrapper{
         flex-direction: row;
     }
+}
+
+.btn-reminder.disabled{
+    opacity: 0.3;
+    pointer-events: none;
 }
