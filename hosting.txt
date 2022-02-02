@@ -1,0 +1,4 @@
+https://rabbanee.github.io/
+https://submission-3-876dc.web.app/
+
+note: untuk di github pages, jika direfresh saat offline dan endpoint bukan default/https://rabbanee.github.io maka akan mengalami page not found dikarenakan project ini menggunakan fitur SPA dengan route navigo. saya sarankan jika ingin mencoba fitur offline di github pages harap refresh di endpoint default dan setalah itu coba akses halaman lain dengan navigation/navbar. Terima Kasih
